@@ -69,6 +69,8 @@ module RunoffMod
      real(r8), pointer :: erout(:,:)       ! MOSART flow out of the main channel, instantaneous (m3/s)
 
      ! inputs
+    
+     real(r8), pointer :: qfal(:,:)        ! canopy throughfall rain [mm H2O/s]
      real(r8), pointer :: qsur(:,:)        ! coupler surface forcing [m3/s]
      real(r8), pointer :: qsub(:,:)        ! coupler subsurface forcing [m3/s]
      real(r8), pointer :: qgwl(:,:)        ! coupler glacier/wetland/lake forcing [m3/s]
@@ -97,6 +99,9 @@ module RunoffMod
      real(r8), pointer :: volr_nt1(:)
      real(r8), pointer :: volr_nt2(:)
      real(r8), pointer :: volr_mch(:)
+
+     real(r8), pointer :: qfal_nt1(:)
+     real(r8), pointer :: qfal_nt2(:)
      real(r8), pointer :: qsur_nt1(:)
      real(r8), pointer :: qsur_nt2(:)
      real(r8), pointer :: qsub_nt1(:)
@@ -203,6 +208,8 @@ module RunoffMod
      real(r8), pointer :: wunsat(:,:)  ! storage of surface water within unsaturated area at hillslope [m]
      real(r8), pointer :: qhorton(:,:) ! Infiltration excess runoff generated from hillslope, [m/s]
      real(r8), pointer :: qdunne(:,:)  ! Saturation excess runoff generated from hillslope, [m/s]
+
+     real(r8), pointer :: qfal(:,:)    ! canopy throughfall rain from hillslope, [mm/s]
      real(r8), pointer :: qsur(:,:)    ! Surface runoff generated from hillslope, [m/s]
      real(r8), pointer :: qsub(:,:)    ! Subsurface runoff generated from hillslope, [m/s]
      real(r8), pointer :: qgwl(:,:)    ! gwl runoff term from glacier, wetlands and lakes, [m/s]
@@ -318,6 +325,8 @@ contains
              rtmCTL%dvolrdtlnd_nt2(begr:endr),    &
              rtmCTL%dvolrdtocn_nt1(begr:endr),    &
              rtmCTL%dvolrdtocn_nt2(begr:endr),    &
+             rtmCTL%qfal_nt1(begr:endr),          &
+             rtmCTL%qfal_nt2(begr:endr),          &
              rtmCTL%qsur_nt1(begr:endr),          &
              rtmCTL%qsur_nt2(begr:endr),          &
              rtmCTL%qsub_nt1(begr:endr),          &
@@ -333,6 +342,7 @@ contains
              rtmCTL%wt(begr:endr,nt_rtm),         &
              rtmCTL%wr(begr:endr,nt_rtm),         &
              rtmCTL%erout(begr:endr,nt_rtm),      &
+             rtmCTL%qfal(begr:endr,nt_rtm),       & 
              rtmCTL%qsur(begr:endr,nt_rtm),       & 
              rtmCTL%qsub(begr:endr,nt_rtm),       &
              rtmCTL%qgwl(begr:endr,nt_rtm),       &
@@ -358,6 +368,7 @@ contains
     rtmCTL%qirrig_actual(:)= 0._r8
     rtmCTL%volr_mch(:)     = 0._r8
 
+    rtmCTL%qfal(:,:)       = 0._r8
     rtmCTL%qsur(:,:)       = 0._r8
     rtmCTL%qsub(:,:)       = 0._r8
     rtmCTL%qgwl(:,:)       = 0._r8

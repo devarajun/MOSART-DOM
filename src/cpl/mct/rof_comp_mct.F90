@@ -30,6 +30,7 @@ module rof_comp_mct
 
   use mosart_import_export, only : mosart_import, mosart_export
   use mosart_cpl_indices  , only : mosart_cpl_indices_set
+  use mosart_cpl_indices  , only : index_x2r_Flrl_liqgrd
   use mosart_cpl_indices  , only : index_x2r_Flrl_rofsur, index_x2r_Flrl_rofi
   use mosart_cpl_indices  , only : index_x2r_Flrl_rofgwl, index_x2r_Flrl_rofsub
   use mosart_cpl_indices  , only : index_x2r_Flrl_irrig

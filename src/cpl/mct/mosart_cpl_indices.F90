@@ -14,6 +14,8 @@ module mosart_cpl_indices
   public :: mosart_cpl_indices_set        ! Set the coupler indices
 
   ! PUBLIC DATA MEMBERS:
+
+  integer, public :: index_x2r_Flrl_liqgrd = 0 ! lnd->rof  canopy throughfall rain
   integer, public :: index_x2r_Flrl_rofsur = 0 ! lnd->rof liquid surface runoff forcing from land
   integer, public :: index_x2r_Flrl_rofgwl = 0 ! lnd->rof liquid gwl runoff from land
   integer, public :: index_x2r_Flrl_rofsub = 0 ! lnd->rof liquid subsurface runoff from land
@@ -59,6 +61,7 @@ contains
 
     call mct_aVect_init(avtmp, rList=flds_x2r, lsize=1)
 
+    index_x2r_Flrl_liqgrd = mct_avect_indexra(avtmp,'Flrl_liqgrd')
     index_x2r_Flrl_rofsur = mct_avect_indexra(avtmp,'Flrl_rofsur')
     index_x2r_Flrl_rofgwl = mct_avect_indexra(avtmp,'Flrl_rofgwl')
     index_x2r_Flrl_rofsub = mct_avect_indexra(avtmp,'Flrl_rofsub')

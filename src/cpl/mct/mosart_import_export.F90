@@ -2,6 +2,7 @@ module mosart_import_export
 
   use shr_kind_mod        , only : r8 => shr_kind_r8, cl=>shr_kind_cl
   use shr_sys_mod         , only : shr_sys_abort
+  use mosart_cpl_indices  , only : index_x2r_Flrl_liqgrd
   use mosart_cpl_indices  , only : index_x2r_Flrl_rofsur, index_x2r_Flrl_rofi
   use mosart_cpl_indices  , only : index_x2r_Flrl_rofgwl, index_x2r_Flrl_rofsub
   use mosart_cpl_indices  , only : index_x2r_Flrl_irrig
@@ -63,6 +64,7 @@ contains
     do n = begr,endr
        n2 = n - begr + 1
 
+       rtmCTL%qfal(n,nliq) = x2r(index_x2r_Flrl_liqgrd,n2) * (rtmCTL%area(n)*0.001_r8)
        rtmCTL%qsur(n,nliq) = x2r(index_x2r_Flrl_rofsur,n2) * (rtmCTL%area(n)*0.001_r8)
        rtmCTL%qsub(n,nliq) = x2r(index_x2r_Flrl_rofsub,n2) * (rtmCTL%area(n)*0.001_r8)
        rtmCTL%qgwl(n,nliq) = x2r(index_x2r_Flrl_rofgwl,n2) * (rtmCTL%area(n)*0.001_r8)
@@ -76,6 +78,8 @@ contains
 
     if (debug > 0 .and. masterproc .and. get_nstep() < 5) then
        do n = begr,endr
+
+          write(iulog,F01)'import: nstep, n, Flrl_liqgrd = ',get_nstep(),n,rtmCTL%qfal(n,nliq)
           write(iulog,F01)'import: nstep, n, Flrl_rofsur = ',get_nstep(),n,rtmCTL%qsur(n,nliq)
           write(iulog,F01)'import: nstep, n, Flrl_rofsub = ',get_nstep(),n,rtmCTL%qsub(n,nliq)
           write(iulog,F01)'import: nstep, n, Flrl_rofgwl = ',get_nstep(),n,rtmCTL%qgwl(n,nliq)

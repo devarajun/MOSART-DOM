@@ -375,6 +375,31 @@ MODULE MOSART_physics_mod
   end subroutine Routing_DW
 
 !-----------------------------------------------------------------------
+  !-----------------------------------------------------------------------
+  subroutine doc_masbal(iunit, nt, theDeltaT)
+  !DESCRIPTION: solve mass balance equation
+    !etin--> lateral flow from hillslope includes sruface and subsurface runoff
+    !(m3/s)
+    !etout--> discharge from subnetwork into the main reach (m3/s)
+    !wh-->storage of surface water
+    implicit none
+    integer, intent(in) :: iunit, nt
+    real(r8) :: doc_input, localDeltaT
+    real(r8) :: doc_inst, doc_output
+    doc_input = doc_canopy2ground(qfal_doc(iunit,1))
+    doc_output = 0._r8
+    doc_inst(iunit,nt) = DOC(iunit,nt) + (TRunoff%erin(iunit,nt) * DOC_input -TRunoff%erout(iunit,nt) * doc_output &
+                         + doc_fromtopsoil*TRunoff%qsub(iunit,nt) )*theDeltaT/TRunoff%wh(iunit,nt)
+  end subroutine! DOC mass balance
+  
+  function doc_canopy2ground(precip2grnd) result(qfal_doc)
+  ! Function to calculate throughfall from precipitation
+  ! Flux of DOC with precipitation onto the ground including canopy runoff
+    implicit none
+    real(r8) :: qfal_doc     
+    real(r8) :: precip2grnd   ! deposition of water onto ground (mm/s)
+    qfal_doc  = precip2grnd * 3._r8* 1e-3   !from obs 3 mgC/L 1L=1mm
+  end function doc_canopy2ground
 
   subroutine updateState_hillslope(iunit,nt)
   ! !DESCRIPTION: update the state variables at hillslope

@@ -98,6 +98,10 @@ contains
          avgflag='A', long_name='MOSART ocean change of storage: '//trim(rtm_tracers(2)), &
          ptr_rof=rtmCTL%dvolrdtocn_nt2, default='inactive')
 
+    call RtmHistAddfld (fname='QFAL'//'_'//trim(rtm_tracers(1)), units='mm/s',  &
+         avgflag='A', long_name='Through fall rain input to DOC: '//trim(rtm_tracers(1)), &
+         ptr_rof=rtmCTL%qfal_nt1, default='inactive')
+
     call RtmHistAddfld (fname='QSUR'//'_'//trim(rtm_tracers(1)), units='m3/s',  &
          avgflag='A', long_name='MOSART input surface runoff: '//trim(rtm_tracers(1)), &
          ptr_rof=rtmCTL%qsur_nt1, default='inactive')
