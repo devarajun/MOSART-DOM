@@ -41,8 +41,10 @@ MODULE MOSART_physics_mod
 ! !PUBLIC MEMBER FUNCTIONS:
   contains
 
+!
 !-----------------------------------------------------------------------
   subroutine Euler
+  ! Add Input variable
   ! !DESCRIPTION: solve the ODEs with Euler algorithm
     implicit none    
     
@@ -121,6 +123,7 @@ MODULE MOSART_physics_mod
 
        call t_startf('mosartr_SMeroutUp')    
        TRunoff%eroutUp = 0._r8
+       ! Check here later to add DOM compatabiity when it is MOSART uncoupled from CLM
 #ifdef NO_MCT
        do iunit=rtmCTL%begr,rtmCTL%endr
        do k=1,TUnit%nUp(iunit)
